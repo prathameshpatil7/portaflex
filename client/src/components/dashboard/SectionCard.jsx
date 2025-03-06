@@ -26,7 +26,7 @@ const SectionCard = ({ section, onAddItem, onEditItem, onDeleteItem }) => {
     setIsDialogOpen(false);
   };
   const isSingleEntrySection =
-    section.id === "summary" || section.id === "user";
+    section.id === "summary" || section.id === "personal-details";
 
   const truncateSummary = (summary, maxLength) => {
     if (summary.length <= maxLength) {

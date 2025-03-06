@@ -10,7 +10,13 @@ const updateSummary = async (content, userId) => {
   return await summaryRepository.update(content, userId);
 };
 
+// Delete summary
+const deleteSummary = async (userId) => {
+  return await summaryRepository.deleteSummary(userId);
+};
+
 module.exports = {
   getSummary,
   updateSummary,
+  deleteSummary,
 };

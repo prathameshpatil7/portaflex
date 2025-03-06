@@ -7,8 +7,8 @@ class PersonalDetailsRepository {
   }
 
   // Create new personal details
-  async createPersonalDetails(personalDetailsData) {
-    const newPersonalDetails = new PersonalDetails(personalDetailsData);
+  async createPersonalDetails(data) {
+    const newPersonalDetails = new PersonalDetails(data);
     return await newPersonalDetails.save();
   }
 
@@ -26,6 +26,29 @@ class PersonalDetailsRepository {
     return await PersonalDetails.findByIdAndUpdate(id, personalDetailsData, {
       new: true,
     });
+  }
+
+  // Update template
+  async updateTemplate(template, userId) {
+    // Find the existing details to ensure the user owns it
+    const existing = await PersonalDetails.findOne({
+      userId,
+    });
+
+    // If the document does not exist or user does not own it, handle it
+    if (!existing) {
+      throw new Error(
+        "Personal details not found or you do not have permission to update."
+      );
+    }
+
+    // Update the template field
+    existing.template = template;
+
+    // Save the updated document
+    await existing.save();
+
+    return existing; // Optionally return the updated document
   }
 
   // Delete personal details (if needed)

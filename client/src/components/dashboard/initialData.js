@@ -16,6 +16,6 @@ export const initialSections = [
   { id: "achievements", title: "Achievements", icon: Trophy, items: [] },
   { id: "summary", title: "Summary", icon: FileText, items: [] },
   { id: "projects", title: "Personal Projects", icon: Folder, items: [] },
-  { id: "certifications", title: "Certifications", icon: Award, items: [] },
+  { id: "certification", title: "Certifications", icon: Award, items: [] },
   { id: "personal-details", title: "User Details", icon: User, items: [] },
 ];

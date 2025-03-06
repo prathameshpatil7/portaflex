@@ -1,18 +1,29 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Editor from "../rich-text/editor";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import DatePickerWithLabel from "./DatePickerWithLabel";
 
 const ProjectFormFields = ({ formData, setFormData }) => {
-  const [image, setImage] = useState(formData?.image || null);
+  const [imageUrl, setImageUrl] = useState(formData?.imageUrl || null);
+
+  useEffect(() => {
+    // If formData has an image URL, set it
+    if (formData?.images?.[0] && !formData.image) {
+      setImageUrl(formData.images[0]);
+    } else if (formData?.image) {
+      setImageUrl(URL.createObjectURL(formData?.image) || null);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
 
-    setImage(URL.createObjectURL(file));
-    // Optionally, update formData here if needed
-    setFormData({ ...formData, image: URL.createObjectURL(file) });
+    if (file) {
+      setImageUrl(URL.createObjectURL(file)); // Create a preview URL
+      setFormData({ ...formData, image: file }); // Store the file in formData
+    }
   };
 
   return (
@@ -20,15 +31,13 @@ const ProjectFormFields = ({ formData, setFormData }) => {
       <Input
         name="title"
         placeholder="Project Title"
-        defaultValue={formData?.title || ""}
+        value={formData?.title || ""}
         onChange={(e) => setFormData({ ...formData, title: e.target.value })}
       />
       <Textarea
         name="technologies"
         placeholder="Technologies (comma separated)"
-        defaultValue={
-          formData?.technologies ? formData?.technologies.join(", ") : ""
-        }
+        value={formData?.technologies ? formData?.technologies.join(", ") : ""}
         onChange={(e) =>
           setFormData({
             ...formData,
@@ -53,7 +62,7 @@ const ProjectFormFields = ({ formData, setFormData }) => {
       <Input
         name="githubLink"
         placeholder="GitHub Link"
-        defaultValue={formData?.githubLink || ""}
+        value={formData?.githubLink || ""}
         onChange={(e) =>
           setFormData({ ...formData, githubLink: e.target.value })
         }
@@ -61,16 +70,16 @@ const ProjectFormFields = ({ formData, setFormData }) => {
       <Input
         name="liveLink"
         placeholder="Live Link"
-        defaultValue={formData?.liveLink || ""}
+        value={formData?.liveLink || ""}
         onChange={(e) => setFormData({ ...formData, liveLink: e.target.value })}
       />
       <Input type="file" accept="image/*" onChange={handleImageChange} />
       <div className="image-preview">
-        {image && (
+        {imageUrl && (
           <>
             <h3>Project Banner Image:</h3>
             <img
-              src={image}
+              src={imageUrl}
               alt="Uploaded Preview"
               className="h-32 object-cover"
             />

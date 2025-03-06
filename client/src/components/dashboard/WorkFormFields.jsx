@@ -10,13 +10,13 @@ const WorkFormFields = ({ formData, setFormData }) => {
       <Input
         name="title"
         placeholder="Job Title"
-        defaultValue={formData?.title || ""}
+        value={formData?.title || ""}
         onChange={(e) => setFormData({ ...formData, title: e.target.value })}
       />
       <Input
         name="company"
         placeholder="Company"
-        defaultValue={formData?.company || ""}
+        value={formData?.company || ""}
         onChange={(e) => setFormData({ ...formData, company: e.target.value })}
       />
       <div className="grid grid-cols-2 gap-4">

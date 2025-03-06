@@ -28,7 +28,6 @@ class EducationRepository {
     if (!existing) {
       throw new Error("Not authorized to update");
     }
-    console.log("in repo");
     return await Education.findByIdAndUpdate(id, educationData, {
       new: true,
     });

@@ -19,7 +19,6 @@ const generateToken = (admin) => {
 // Admin Login Controller
 exports.adminLogin = async (req, res) => {
   const { email, password } = req.body;
-  console.log(email, password);
   try {
     // Find the admin by email
     const admin = await Admin.findOne({ email });

@@ -62,7 +62,7 @@ const deleteExperience = async (req, res, next) => {
     const userId = req.user._id; // Get userId from the decoded token
     await experienceService.deleteExperience(req.params.id, userId);
     logger(`Experience deleted (ID: ${req.params.id})`);
-    res.status(202).json({ message: "Experience deleted" });
+    res.status(201).json({ success: true });
   } catch (error) {
     logger("Error deleting experience", error.message);
     next(error);

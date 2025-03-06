@@ -16,15 +16,36 @@ const ProfilePreview = ({ formData, setFormData }) => {
   // useEffect(() => {
   //   setPreviewData(formData);
   // }, [formData]);
-  const handleProfilePictureChange = (e) => {
-    const file = e.target.files?.[0];
+  const [imageUrl, setImageUrl] = useState(formData?.imageUrl || null);
+
+  useEffect(() => {
+    // If formData has an image URL, set it
+    if (formData?.images && !formData.image) {
+      setImageUrl(formData.images);
+    } else if (formData?.image) {
+      setImageUrl(URL.createObjectURL(formData?.image) || null);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // const handleProfilePictureChange = (e) => {
+  //   const file = e.target.files?.[0];
+  //   if (file) {
+  //     const reader = new FileReader();
+  //     reader.onloadend = () => {
+  //       setFormData((prev) => ({ ...prev, image: reader.result }));
+  //       // setPreviewData((prev) => ({ ...prev, profilePicture: reader.result }));
+  //     };
+  //     reader.readAsDataURL(file);
+  //   }
+  // };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setFormData((prev) => ({ ...prev, profilePicture: reader.result }));
-        // setFormData((prev) => ({ ...prev, [name]: value }));
-      };
-      reader.readAsDataURL(file);
+      setImageUrl(URL.createObjectURL(file)); // Create a preview URL
+      setFormData({ ...formData, image: file }); // Store the file in formData
     }
   };
 
@@ -41,55 +62,68 @@ const ProfilePreview = ({ formData, setFormData }) => {
           <Input
             name="name"
             placeholder="Full Name"
-            defaultValue={formData?.name || ""}
+            value={formData?.name || ""}
             onChange={handleInputChange}
           />
           <Textarea
-            name="shortHeadline"
+            name="designation"
             placeholder="Short Headline (e.g., Software Development Engineer | MERN Stack | React Js | SQL | Node | Mongo DB)"
-            defaultValue={formData?.shortHeadline || ""}
-            maxLength={120}
+            value={formData?.designation || ""}
+            maxLength={200}
             onChange={handleInputChange}
             style={{ resize: "none" }}
           />
           <Textarea
             name="careerObjective"
             placeholder="Career Objective"
-            defaultValue={formData?.careerObjective || ""}
+            value={formData?.careerObjective || ""}
             onChange={handleInputChange}
             style={{ resize: "none" }}
           />
           <Input
-            name="employmentDuration"
+            name="experience"
             placeholder="Total Duration of Employment"
-            defaultValue={formData?.employmentDuration || ""}
+            value={formData?.experience || ""}
             onChange={handleInputChange}
             type="number"
           />
           <Input
-            name="email"
+            name="emailId"
             type="email"
             placeholder="Email Address"
-            defaultValue={formData?.email || ""}
+            value={formData?.emailId || ""}
             onChange={handleInputChange}
           />
           <Input
-            name="phoneNumber"
+            name="phone"
             type="tel"
             placeholder="Phone Number"
-            defaultValue={formData?.phoneNumber || ""}
+            value={formData?.phone || ""}
             onChange={handleInputChange}
           />
           <Input
-            name="linkedinProfile"
+            name="linkedinLink"
             placeholder="LinkedIn Profile URL"
-            defaultValue={formData?.linkedinProfile || ""}
+            value={formData?.linkedinLink || ""}
             onChange={handleInputChange}
           />
           <Input
-            name="githubProfile"
+            name="githubLink"
             placeholder="GitHub Profile URL"
-            defaultValue={formData?.githubProfile || ""}
+            value={formData?.githubLink || ""}
+            onChange={handleInputChange}
+          />
+
+          <Input
+            name="leetcodeLink"
+            placeholder="Leetcode Profile URL"
+            value={formData?.leetcodeLink || ""}
+            onChange={handleInputChange}
+          />
+          <Input
+            name="stackoverflowLink"
+            placeholder="Stack Overflow Profile URL"
+            value={formData?.stackoverflowLink || ""}
             onChange={handleInputChange}
           />
           <div className="space-y-2">
@@ -98,7 +132,7 @@ const ProfilePreview = ({ formData, setFormData }) => {
               id="profilePicture"
               type="file"
               accept="image/*"
-              onChange={handleProfilePictureChange}
+              onChange={handleImageChange}
             />
           </div>
         </div>
@@ -115,12 +149,7 @@ const ProfilePreview = ({ formData, setFormData }) => {
             <CardContent className="pt-6">
               <div className="flex items-center space-x-4">
                 <Avatar className="w-24 h-24 border-4 border-white shadow-lg">
-                  <AvatarImage
-                    src={
-                      formData?.profilePicture ||
-                      "/placeholder.svg?height=96&width=96"
-                    }
-                  />
+                  <AvatarImage src={imageUrl || ""} />
                   <AvatarFallback>
                     {formData?.name?.charAt(0) || "U"}
                   </AvatarFallback>

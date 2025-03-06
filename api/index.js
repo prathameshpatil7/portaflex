@@ -10,6 +10,7 @@ const achievementRoutes = require("./routes/achievementRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const userRoutes = require("./routes/userRoutes");
 const educationRoutes = require("./routes/educationRoutes");
+const certificationRoutes = require("./routes/certificationRoutes");
 const errorHandler = require("./middlewares/errorHandler");
 const dbConfig = require("./config/dbConfig");
 const logger = require("./utils/logger");
@@ -39,6 +40,7 @@ app.use("/api/summary", summaryRoutes);
 app.use("/api/personal-details", personalDetailsRoutes);
 app.use("/api/achievements", achievementRoutes);
 app.use("/api/education", educationRoutes);
+app.use("/api/certification", certificationRoutes);
 
 app.use(errorHandler);
 

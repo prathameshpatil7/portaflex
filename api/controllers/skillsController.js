@@ -31,7 +31,6 @@ const updateSkillsCategory = async (req, res) => {
   const { skillsId } = req.params;
   const { category, skills } = req.body;
   const userId = req.user._id; // Get userId from the decoded token
-  console.log(skillsId);
   try {
     const updatedSkills = await skillsService.updateSkills(
       skillsId,
@@ -52,7 +51,7 @@ const deleteSkillsCategory = async (req, res) => {
   const userId = req.user._id; // Get userId from the decoded token
   try {
     await skillsService.deleteSkills(skillsId, userId);
-    res.status(200).send({ message: "Deleted Successfully" });
+    res.status(200).json({ success: true });
   } catch (error) {
     logger("Error deleting category, skills", error);
     res.status(500).json({ error: error.message || "Internal Server Error" });

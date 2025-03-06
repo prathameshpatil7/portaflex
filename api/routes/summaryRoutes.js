@@ -8,5 +8,7 @@ router.get("/", protect, summaryController.getSummary);
 
 // Update summary
 router.put("/:id", protect, summaryController.updateSummary);
+router.post("/create", protect, summaryController.updateSummary);
+router.delete("/:id", protect, summaryController.deleteSummary);
 
 module.exports = router;

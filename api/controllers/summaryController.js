@@ -26,7 +26,21 @@ const updateSummary = async (req, res) => {
   }
 };
 
+const deleteSummary = async (req, res) => {
+  const { content } = req.body;
+  const userId = req.user._id; // Get userId from the decoded token
+
+  try {
+    const updatedSummary = await summaryService.deleteSummary(userId);
+    res.status(200).json({ success: true });
+  } catch (error) {
+    logger("Error updating summary", error);
+    res.status(500).json({ error: error.message || "Internal Server Error" });
+  }
+};
+
 module.exports = {
   getSummary,
   updateSummary,
+  deleteSummary,
 };

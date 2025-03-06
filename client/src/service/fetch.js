@@ -19,8 +19,7 @@ export const call = (method = "POST", param, headers) =>
         sessionStorage.clear();
         window.location.href = "/";
       }
-
-      throw new Error(errorMessage);
+      throw error;
     })
     .then(({ data }) => data);
 

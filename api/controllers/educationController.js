@@ -39,7 +39,6 @@ exports.updateEducation = async (req, res) => {
   const { degreeTitle, college, startYear, endYear, bulletPoints } = req.body;
   const userId = req.user._id; // Get userId from the decoded token
   try {
-    console.log(req.body, userId);
     const updatedEducation = await educationService.updateEducation(
       id,
       degreeTitle,
@@ -62,7 +61,7 @@ exports.deleteEducation = async (req, res) => {
   const userId = req.user._id; // Get userId from the decoded token
   try {
     await educationService.deleteEducation(id, userId);
-    res.status(202).send();
+    res.status(201).json({ success: true });
   } catch (error) {
     logger("Error deleting education entry:", error);
     res.status(500).json({ message: "Server Error" });

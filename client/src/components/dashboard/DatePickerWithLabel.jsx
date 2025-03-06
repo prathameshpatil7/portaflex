@@ -7,7 +7,6 @@ import { Button } from "../ui/button";
 
 const DatePickerWithLabel = ({ name, label, date, setDate, disabled }) => (
   <div className="flex flex-col space-y-2">
-    {console.log(date)}
     <Label htmlFor={name}>{label}</Label>
     <Popover>
       <PopoverTrigger asChild>

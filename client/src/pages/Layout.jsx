@@ -23,10 +23,10 @@ const Layout = ({ children, onSetApp, userData = {} }) => {
   };
 
   return (
-    <div className={`min-h-screen flex flex-col ${isDarkMode ? "dark" : ""}`}>
+    <div className={`min-h-screen flex flex-col`}>
       <header className="sticky top-0 z-50">
         {/* Navbar */}
-        <nav className="bg-background border-b border-border">
+        <nav className=" bg-white dark:bg-gray-800 bg-opacity-50 dark:bg-opacity-50 backdrop-blur-lg">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between h-16">
               <div className="flex items-center">

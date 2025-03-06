@@ -7,14 +7,14 @@ class AchievementService {
   }
 
   // Create new achievement
-  async createAchievement(title, date, links, bulletPoints, userId) {
-    const achievementData = { title, date, links, bulletPoints, userId };
+  async createAchievement(title, date, link, bulletPoints, userId) {
+    const achievementData = { title, date, link, bulletPoints, userId };
     return await achievementRepository.createAchievement(achievementData);
   }
 
   // Update an achievement
-  async updateAchievement(id, title, date, links, bulletPoints, userId) {
-    const achievementData = { title, date, links, bulletPoints, userId };
+  async updateAchievement(id, title, date, link, bulletPoints, userId) {
+    const achievementData = { title, date, link, bulletPoints, userId };
     return await achievementRepository.updateAchievement(
       id,
       achievementData,

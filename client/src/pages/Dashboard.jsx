@@ -35,7 +35,7 @@ const Dashboard = (props) => {
         achievements: response?.achievements,
         summary: response?.summary,
         projects: response?.projects,
-        certifications: ["cert"],
+        certification: response?.certification,
         "personal-details": response?.personalDetails,
       };
 
@@ -45,26 +45,34 @@ const Dashboard = (props) => {
         items: responseMap[section.id] || [],
       }));
       setSections(populatedSections);
-      console.log(populatedSections);
     } catch (error) {
       console.error("Failed to fetch portfolio data:", error);
     } finally {
       setLoading(false);
     }
   };
-  const handleAddItem = (sectionId, newItem) => {
+  const handleAddItem = async (sectionId, newItem) => {
+    let id;
+    if (sectionId === "projects" || sectionId === "personal-details") {
+      id = await handleCreateFormData(sectionId, newItem);
+    } else {
+      id = await createData(sectionId, newItem);
+    }
     setSections((prevSections) =>
       prevSections.map((section) =>
         section.id === sectionId
-          ? { ...section, items: [...section.items, newItem] }
+          ? { ...section, items: [...section.items, { ...newItem, _id: id }] }
           : section
       )
     );
-
-    createData(sectionId, newItem);
   };
 
-  const handleEditItem = (sectionId, itemIndex, updatedItem) => {
+  const handleEditItem = async (sectionId, itemIndex, updatedItem) => {
+    if (sectionId === "projects" || sectionId === "personal-details") {
+      await handleUpdateFormData(sectionId, updatedItem._id, updatedItem);
+    } else {
+      await updateData(sectionId, updatedItem._id, updatedItem);
+    }
     setSections((prevSections) =>
       prevSections.map((section) =>
         section.id === sectionId
@@ -79,7 +87,8 @@ const Dashboard = (props) => {
     );
   };
 
-  const handleDeleteItem = (sectionId, itemIndex, id) => {
+  const handleDeleteItem = async (sectionId, itemIndex, id) => {
+    await deleteData(sectionId, id);
     setSections((prevSections) =>
       prevSections.map((section) =>
         section.id === sectionId
@@ -90,9 +99,9 @@ const Dashboard = (props) => {
           : section
       )
     );
-    deleteData(sectionId, id);
   };
-  console.log(sections);
+
+  // console.log(sections);
   return (
     <div className="min-h-screen bg-background text-foreground p-4 md:p-8">
       {loading ? (
@@ -114,7 +123,7 @@ const Dashboard = (props) => {
             ))}
           </div>
 
-          <ThemeSelection />
+          <ThemeSelection sections={sections} />
           <SectionReorderInstructions />
         </>
       )}

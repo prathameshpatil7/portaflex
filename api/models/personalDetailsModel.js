@@ -10,7 +10,15 @@ const personalDetailsSchema = new mongoose.Schema({
   emailId: { type: String },
   designation: { type: String },
   location: { type: String },
-  links: [linkSchema], // Array of links with name and url
+  githubLink: { type: String },
+  liveLink: { type: String },
+  leetcodeLink: { type: String },
+  stackoverflowLink: { type: String },
+  experience: { type: Number, min: 0 },
+  phone: { type: String },
+  images: { type: String },
+  careerObjective: { type: String },
+  template: { type: String },
   userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
 });
 

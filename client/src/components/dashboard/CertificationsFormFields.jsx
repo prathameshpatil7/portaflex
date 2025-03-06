@@ -7,7 +7,7 @@ const CertificationsFormFields = ({ formData, setFormData }) => {
       <Input
         name="title"
         placeholder="Certification Title"
-        defaultValue={formData?.title || ""}
+        value={formData?.title || ""}
         onChange={(e) => setFormData({ ...formData, title: e.target.value })}
       />
       <DatePickerWithLabel
@@ -17,6 +17,12 @@ const CertificationsFormFields = ({ formData, setFormData }) => {
         setDate={(date) =>
           setFormData({ ...formData, certificationDate: date })
         }
+      />
+      <Input
+        name="link"
+        placeholder="Certification Link"
+        value={formData?.link || ""}
+        onChange={(e) => setFormData({ ...formData, link: e.target.value })}
       />
     </>
   );

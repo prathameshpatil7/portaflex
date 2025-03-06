@@ -28,18 +28,18 @@ const getProjectById = async (req, res, next) => {
 const createProject = async (req, res, next) => {
   const userId = req.user._id; // Get userId from the decoded token
   try {
-    const { title, technologies, bulletPoints, date, links } = req.body;
-    // Extract URLs of uploaded images from Cloudinary
-    const imageUrls = req.files.map((file) => file.path); // Cloudinary returns the path
+    const { title, technologies, bulletPoints, date, githubLink, liveLink } =
+      req.body;
+
     const projectBody = {
       title,
       technologies: JSON.parse(technologies),
-      bulletPoints: JSON.parse(bulletPoints),
+      bulletPoints: bulletPoints,
       date,
-      links: JSON.parse(links),
-      images: imageUrls, // Store image URLs in the project document
+      githubLink,
+      liveLink,
+      images: req.body.imageUrls, // Store image URLs in the project document
     };
-    console.log(projectBody);
     const newProject = await projectService.createProject(projectBody, userId);
     res.status(201).json(newProject);
   } catch (error) {
@@ -51,18 +51,19 @@ const createProject = async (req, res, next) => {
 const updateProject = async (req, res, next) => {
   const userId = req.user._id; // Get userId from the decoded token
   try {
-    const { title, technologies, bulletPoints, date, links } = req.body;
+    const { title, technologies, bulletPoints, date, githubLink, liveLink } =
+      req.body;
 
     const imageUrls = req.body.imageUrls;
-    console.log("imageUrls>>", imageUrls);
 
     // Prepare project update body
     const projectBody = {
       title,
       technologies: JSON.parse(technologies),
-      bulletPoints: JSON.parse(bulletPoints),
+      bulletPoints: bulletPoints,
       date,
-      links: JSON.parse(links),
+      githubLink,
+      liveLink,
       images: imageUrls, // Store image URLs in the project document
     };
 
@@ -84,7 +85,7 @@ const deleteProject = async (req, res, next) => {
   const userId = req.user._id; // Get userId from the decoded token
   try {
     await projectService.deleteProject(req.params.id, userId);
-    res.status(202).end();
+    res.status(201).json({ success: true });
   } catch (error) {
     logger("Error deleting project in controller", error.message); // Log error
     next(error);

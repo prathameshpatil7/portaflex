@@ -18,7 +18,6 @@ export default function SectionForm({ sectionId, onSubmit, initialData = {} }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
     onSubmit(formData);
   };
 
@@ -45,7 +44,7 @@ export default function SectionForm({ sectionId, onSubmit, initialData = {} }) {
             setFormData={setFormData}
           />
         );
-      case "certifications":
+      case "certification":
         return (
           <CertificationsFormFields
             formData={formData}

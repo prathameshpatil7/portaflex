@@ -10,7 +10,14 @@ export const setApp = (payload) => ({
 
 export const createData = async (route, data) => {
   try {
-    await fetch({ url: `/api/${route}/create`, body: data }, "POST");
+    const response = await fetch(
+      { url: `/api/${route}/create`, body: data },
+      "POST"
+    );
+    if (response?._id) {
+      return response._id;
+    }
+    return null;
   } catch (error) {
     console.error("Failed to save portfolio data:", error);
   }
@@ -34,19 +41,27 @@ export const deleteData = async (route, id) => {
 export const handleCreateFormData = async (route, data) => {
   try {
     const formData = projectDataToFormData(data);
-    await fetch({ url: `/api/${route}/create`, body: formData }, "POST", {
-      "Content-Type": "multipart/form-data",
-      "Access-Control-Allow-Origin": "*",
-    });
+    const response = await fetch(
+      { url: `/api/${route}/create`, body: formData },
+      "POST",
+      {
+        "Content-Type": "multipart/form-data",
+        "Access-Control-Allow-Origin": "*",
+      }
+    );
+    if (response?._id) {
+      return response._id;
+    }
+    return null;
   } catch (error) {
     console.error("Failed to save form data:", error);
   }
 };
 
-export const handleUpdateFormData = async (route, data) => {
+export const handleUpdateFormData = async (route, id, data) => {
   try {
     const formData = projectDataToFormData(data);
-    await fetch({ url: `/api/${route}/create`, body: formData }, "PUT", {
+    await fetch({ url: `/api/${route}/${id}`, body: formData }, "PUT", {
       "Content-Type": "multipart/form-data",
       "Access-Control-Allow-Origin": "*",
     });

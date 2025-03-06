@@ -8,7 +8,7 @@ const AchievementsFormFields = ({ formData, setFormData }) => {
       <Input
         name="title"
         placeholder="Achievement Title"
-        defaultValue={formData?.title || ""}
+        value={formData?.title || ""}
         onChange={(e) => setFormData({ ...formData, title: e.target.value })}
       />
       <DatePickerWithLabel
@@ -20,7 +20,7 @@ const AchievementsFormFields = ({ formData, setFormData }) => {
       <Input
         name="certificateLink"
         placeholder="Certificate Link"
-        defaultValue={formData?.certificateLink || ""}
+        value={formData?.certificateLink || ""}
         onChange={(e) =>
           setFormData({ ...formData, certificateLink: e.target.value })
         }

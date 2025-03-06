@@ -15,13 +15,13 @@ exports.getAchievements = async (req, res) => {
 
 // Create new achievement
 exports.createAchievement = async (req, res) => {
-  const { title, date, links, bulletPoints } = req.body;
+  const { title, date, link, bulletPoints } = req.body;
   const userId = req.user._id; // Get userId from the decoded token
   try {
     const newAchievement = await achievementService.createAchievement(
       title,
       date,
-      links,
+      link,
       bulletPoints,
       userId
     );
@@ -35,14 +35,14 @@ exports.createAchievement = async (req, res) => {
 // Update an achievement
 exports.updateAchievement = async (req, res) => {
   const { id } = req.params;
-  const { title, date, links, bulletPoints } = req.body;
+  const { title, date, link, bulletPoints } = req.body;
   const userId = req.user._id; // Get userId from the decoded token
   try {
     const updatedAchievement = await achievementService.updateAchievement(
       id,
       title,
       date,
-      links,
+      link,
       bulletPoints,
       userId
     );
@@ -59,7 +59,7 @@ exports.deleteAchievement = async (req, res) => {
   const userId = req.user._id; // Get userId from the decoded token
   try {
     await achievementService.deleteAchievement(id, userId);
-    res.status(202).send();
+    res.status(201).json({ success: true });
   } catch (error) {
     logger("Error deleting achievement:", error);
     res.status(500).json({ error: error.message || "Internal Server Error" });

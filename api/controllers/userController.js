@@ -10,6 +10,7 @@ const PersonalDetails = require("../models/personalDetailsModel");
 const Summary = require("../models/summaryModel");
 const Achievement = require("../models/achievementModel");
 const Project = require("../models/projectModel");
+const Certification = require("../models/certificationModel");
 
 // User Registration
 exports.registerUser = async (req, res) => {
@@ -37,7 +38,6 @@ exports.registerUser = async (req, res) => {
       .status(201)
       .json({ message: "User registered successfully", userId: user._id });
   } catch (error) {
-    console.log(error);
     res.status(500).json({ error: error.message || "Internal Server Error" });
   }
 };
@@ -107,7 +107,6 @@ exports.googleLogin = async (req, res) => {
 
     const { email, name, picture } = userRes.data;
     let user = await User.findOne({ email });
-    console.log(generatePassword(name));
     if (!user) {
       user = await User({
         username: name,
@@ -132,7 +131,6 @@ exports.googleLogin = async (req, res) => {
       token,
     });
   } catch (error) {
-    console.log(error);
     res.status(500).json({ error: error.message || "Internal Server Error" });
   }
 };
@@ -237,6 +235,7 @@ exports.getUserData = async (req, res) => {
       projects,
       summary,
       personalDetails,
+      certification,
     ] = await Promise.all([
       Skill.find({ userId: _id }),
       Experience.find({ userId: _id }),
@@ -245,10 +244,11 @@ exports.getUserData = async (req, res) => {
       Project.find({ userId: _id }),
       Summary.find({ userId: _id }),
       PersonalDetails.find({ userId: _id }),
+      Certification.find({ userId: _id }),
     ]);
 
     // Send the combined result as a response
-    res.json({
+    res.status(200).json({
       skills,
       experience,
       education,
@@ -256,6 +256,7 @@ exports.getUserData = async (req, res) => {
       projects,
       summary,
       personalDetails,
+      certification,
     });
   } catch (error) {
     console.error(error);

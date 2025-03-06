@@ -13,50 +13,22 @@ class PersonalDetailsService {
   }
 
   // Create new personal details
-  async createPersonalDetails(
-    name,
-    emailId,
-    designation,
-    location,
-    links,
-    userId
-  ) {
-    const personalDetailsData = {
-      name,
-      emailId,
-      designation,
-      location,
-      links,
-      userId,
-    };
-    return await personalDetailsRepository.createPersonalDetails(
-      personalDetailsData
+  async createPersonalDetails(body) {
+    return await personalDetailsRepository.createPersonalDetails(body);
+  }
+
+  // Update personal details
+  async updatePersonalDetails(id, body, userId) {
+    return await personalDetailsRepository.updatePersonalDetails(
+      id,
+      body,
+      userId
     );
   }
 
   // Update personal details
-  async updatePersonalDetails(
-    id,
-    name,
-    emailId,
-    designation,
-    location,
-    links,
-    userId
-  ) {
-    const personalDetailsData = {
-      name,
-      emailId,
-      designation,
-      location,
-      links,
-      userId,
-    };
-    return await personalDetailsRepository.updatePersonalDetails(
-      id,
-      personalDetailsData,
-      userId
-    );
+  async updateTemplate(template, userId) {
+    return await personalDetailsRepository.updateTemplate(template, userId);
   }
 
   // Delete personal details
